@@ -1,0 +1,44 @@
+name: Deploy to AKS
+
+on:
+  push:
+    branches:
+      - main
+
+permissions:
+  id-token: write
+  contents: read
+      
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+      
+      - name: Azure login
+        id: login
+        uses: azure/login@v1.4.3
+        with:
+          creds: '${{ secrets.AZURE_CREDENTIALS }}'
+      
+      - name: Install kubectl
+        run: |
+          curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
+          sudo install kubectl /usr/local/bin/
+      
+      - name: Create or Update AKS Cluster
+        id: create_or_update_cluster
+        run: |
+          az aks create -g ${{ secrets.RESOURCE_GROUP_NAME }} -n my-new-aks-cluster --node-count 3 --generate-ssh-keys
+          resource_group_name=$(az aks show -g ${{ secrets.RESOURCE_GROUP_NAME }} -n my-new-aks-cluster --query 'nodeResourceGroup' -o tsv)
+          echo "RESOURCE_GROUP_NAME=$resource_group_name" >> $GITHUB_ENV
+  
+      - name: Get AKS Cluster Credentials
+        run: |
+          az aks get-credentials -g ${{ secrets.RESOURCE_GROUP_NAME }} -n my-new-aks-cluster
+  
+      - name: Deploy Application to AKS Cluster
+        run: |
+          kubectl apply -f .github/workflows/manifest.yaml
