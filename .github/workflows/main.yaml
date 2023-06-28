@@ -28,7 +28,7 @@ jobs:
 
       - name: Atualização do cluster AKS
         run: |
-          az aks update -n cluster-flying-anteater -g rg-famous-ladybug
+          az aks update -n cluster-flying-anteater -g rg-famous-ladybug --yes
 
       - name: Build da nova imagem
         run: |
