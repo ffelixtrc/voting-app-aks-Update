@@ -26,9 +26,9 @@ jobs:
 
     - name: Build da nova imagem
       run: |
-        docker build -t ffelixtrc/vote-front:latest
+        docker build -t ffelixtrc/vote-front:latest .
         docker push ffelixtrc/vote-front:V2
-        docker build -t ffelixtrc/vote-back:latest
+        docker build -t ffelixtrc/vote-back:latest .
         docker push ffelixtrc/vote-back:V2
 
     - name: Atualização do manifesto Kubernetes
