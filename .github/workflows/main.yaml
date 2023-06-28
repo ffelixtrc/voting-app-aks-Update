@@ -24,11 +24,9 @@ jobs:
       - name: Login no Azure CLI
         uses: azure/login@v1.4.3
         with:
-          client-id: ${{ secrets.CLIENT_ID }}
-          tenant-id: ${{ secrets.TENANT_ID }}
-          subscription-id: ${{ secrets.SUBSCRIPTION_ID }}
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
       
-          - name: Configuração do ambiente Azure CLI
+      - name: Configuração do ambiente Azure CLI
         run: |
           az account set --subscription <ID da assinatura>
 
