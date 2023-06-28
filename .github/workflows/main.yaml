@@ -11,10 +11,10 @@ jobs:
 
     steps:
       - name: Checkout do código-fonte
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3       
 
       - name: Login no Azure CLI
-        uses: azure/login@v1
+        uses: azure/login@v1.4.3
         with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
 
