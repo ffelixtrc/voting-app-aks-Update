@@ -28,7 +28,7 @@ jobs:
       
       - name: Configuração do ambiente Azure CLI
         run: |
-          az account set --subscription <ID da assinatura>
+          az account set --subscription ${{ secrets.SUBSCRIPTION_ID }} 
 
       - name: Atualização do cluster AKS
         run: |
