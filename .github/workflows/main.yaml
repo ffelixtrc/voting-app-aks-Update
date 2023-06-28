@@ -5,6 +5,8 @@ on:
     branches:
       - main
 
+name: AzureLoginWithNoSubscriptions      
+
 permissions:
   id-token: write
   contents: read
@@ -25,7 +27,6 @@ jobs:
         uses: azure/login@v1.4.3
         with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
-          enable-AzPSSession: false
 
       - name: Configuração do ambiente Azure CLI
         run: |
